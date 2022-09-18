@@ -20,8 +20,14 @@ const Body = () => {
   const [product, setProduct] = useState<ProductOptionType | null>(null)
   const [productList, setProductList] = useState(selectedProductOption)
 
-  const handleExpireDateSelect = (date: string | null) => {
-    setExpireDate(date || new Date().toISOString())
+  const handleExpireDateSelect = (date: { toJSDate: () => Date } | null) => {
+    // Well idk why but type for date is DateTime luxon object
+    if (date !== null && typeof date === 'object') {
+      setExpireDate(date.toJSDate().toISOString())
+      return
+    }
+
+    setExpireDate(new Date().toISOString())
   }
 
   const handleProductSelect = (newProduct: ProductOptionType | null) => {
@@ -39,9 +45,18 @@ const Body = () => {
     const newProduct: ProductOptionType = {
       ...product,
       id: productList.length.toString(),
+      date: expireDate,
     }
 
     setProductList(() => [newProduct, ...productList])
+
+    setProduct(null)
+    setExpireDate(new Date().toISOString())
+  }
+
+  const handleProductClick = (product: ProductOptionType) => {
+    setProduct(product)
+    setExpireDate(product.date)
   }
 
   return (
@@ -69,7 +84,7 @@ const Body = () => {
           Add
         </Button>
       </Box>
-      <ProductList productItems={productList} onItemRemove={handleProductRemove} />
+      <ProductList productItems={productList} onItemRemove={handleProductRemove} onProductClick={handleProductClick} />
     </Container>
   )
 }

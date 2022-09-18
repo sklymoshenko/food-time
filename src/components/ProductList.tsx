@@ -7,6 +7,7 @@ import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 type ProductListProps = {
   productItems: ProductOptionType[]
   onItemRemove: (product: ProductOptionType) => void
+  onProductClick: (product: ProductOptionType) => void
 }
 
 const dayDiff = (firstDate: string, secondDate: string): number => {
@@ -17,7 +18,7 @@ const dayDiff = (firstDate: string, secondDate: string): number => {
   return Math.round(diff)
 }
 
-export const ProductList = ({ productItems, onItemRemove }: ProductListProps) => {
+export const ProductList = ({ productItems, onItemRemove, onProductClick }: ProductListProps) => {
   const theme = useTheme()
   const dataColor = (expDate: string): string => {
     const diffToday = dayDiff(expDate, new Date().toISOString())
@@ -55,10 +56,16 @@ export const ProductList = ({ productItems, onItemRemove }: ProductListProps) =>
             position: 'relative',
             overflow: 'visible',
           }}
+          onClick={() => {
+            onProductClick(product)
+          }}
         >
           <DoDisturbOnIcon
             sx={{ position: 'absolute', top: '-5px', right: '-5px' }}
-            onClick={() => onItemRemove(product)}
+            onClick={(e) => {
+              e.stopPropagation()
+              onItemRemove(product)
+            }}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <CardContent sx={{ width: { xs: '170px', md: '300px' } }}>

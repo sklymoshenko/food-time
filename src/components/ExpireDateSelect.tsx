@@ -3,7 +3,8 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
 import { TextField, useTheme } from '@mui/material'
 
 type ExpireDateSelectProps = {
-  onDateSelect: (date: string | null) => void
+  // Date here is a luxon DateTime object
+  onDateSelect: (date: { toJSDate: () => Date } | null) => void
   date: string
 }
 
