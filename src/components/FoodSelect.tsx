@@ -57,7 +57,7 @@ export const FoodSelect = () => {
         return option.title
       }}
       renderOption={(props, option) => <li {...props}>{option.title}</li>}
-      fullWidth
+      sx={{ width: { xs: '100%', md: '60%' } }}
       freeSolo
       renderInput={(params) => <TextField {...params} label='Free solo with text demo' />}
     />
