@@ -1,14 +1,22 @@
 import { Box, Container, useTheme } from '@mui/material'
 import { useState } from 'react'
+import { selectedFoodOption } from '../mockData'
 import { ExpireDateSelect } from './ExpireDateSelect'
-import { FoodOptionType, FoodSelect } from './FoodSelect'
+import { FoodList } from './FoodList'
+import { FoodSelect } from './FoodSelect'
+
+export type FoodOptionType = {
+  inputValue?: string
+  title: string
+  date?: string
+}
 
 const Body = () => {
   const theme = useTheme()
-  const [expireDate, setExpireDate] = useState(new Date())
+  const [expireDate, setExpireDate] = useState(new Date().toISOString())
   const [food, setFood] = useState<FoodOptionType | null>(null)
-  const handleExpireDateSelect = (date: Date | null) => {
-    setExpireDate(date || new Date())
+  const handleExpireDateSelect = (date: string | null) => {
+    setExpireDate(date || new Date().toISOString())
   }
   const handleFoodSelect = (newFood: FoodOptionType | null) => {
     setFood(newFood)
@@ -29,6 +37,7 @@ const Body = () => {
         <FoodSelect food={food} onFoodSelect={handleFoodSelect} />
         <ExpireDateSelect date={expireDate} onDateSelect={handleExpireDateSelect} />
       </Box>
+      <FoodList foodItems={selectedFoodOption} />
     </Container>
   )
 }
