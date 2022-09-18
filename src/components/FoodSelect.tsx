@@ -1,9 +1,10 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import { foodOptions } from '../mockData'
+import { generateFoodOptions } from '../mockData'
 import { FoodOptionType } from './Body'
 
 const filter = createFilterOptions<FoodOptionType>()
+const foodOptions = generateFoodOptions()
 
 type FoodSelectProps = {
   onFoodSelect: (food: FoodOptionType | null) => void
@@ -15,10 +16,12 @@ export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
     if (typeof newValue === 'string') {
       onFoodSelect({
         title: newValue,
+        date: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
       })
     } else if (newValue && newValue.inputValue) {
-      // Create a new value from the user input
       onFoodSelect({
+        ...newValue,
         title: newValue.inputValue,
       })
     } else {
@@ -36,6 +39,8 @@ export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
       filtered.push({
         inputValue,
         title: `Add "${inputValue}"`,
+        createdAt: new Date().toISOString(),
+        date: new Date().toISOString(),
       })
     }
 

@@ -8,7 +8,8 @@ import { FoodSelect } from './FoodSelect'
 export type FoodOptionType = {
   inputValue?: string
   title: string
-  date?: string
+  date: string
+  createdAt: string
 }
 
 const Body = () => {
