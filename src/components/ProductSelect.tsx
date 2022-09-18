@@ -1,35 +1,35 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import { generateFoodOptions } from '../mockData'
-import { FoodOptionType } from './Body'
+import { ProductOptionType } from './Body'
 
-const filter = createFilterOptions<FoodOptionType>()
-const foodOptions = generateFoodOptions()
+const filter = createFilterOptions<ProductOptionType>()
 
-type FoodSelectProps = {
-  onFoodSelect: (food: FoodOptionType | null) => void
-  food: FoodOptionType | null
+type ProductSelectProps = {
+  onProductSelect: (product: ProductOptionType | null) => void
+  product: ProductOptionType | null
+  productOptions: ProductOptionType[]
 }
 
-export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
-  const onSearchChange = (newValue: FoodOptionType | string | null) => {
+export const ProductSelect = ({ onProductSelect, product, productOptions }: ProductSelectProps) => {
+  const onSearchChange = (newValue: ProductOptionType | string | null) => {
     if (typeof newValue === 'string') {
-      onFoodSelect({
+      onProductSelect({
+        id: productOptions.length.toString(),
         title: newValue,
         date: new Date().toISOString(),
         createdAt: new Date().toISOString(),
       })
     } else if (newValue && newValue.inputValue) {
-      onFoodSelect({
+      onProductSelect({
         ...newValue,
         title: newValue.inputValue,
       })
     } else {
-      onFoodSelect(newValue)
+      onProductSelect(newValue)
     }
   }
 
-  const filterOptions = (options: FoodOptionType[], params: FilterOptionsState<FoodOptionType>) => {
+  const filterOptions = (options: ProductOptionType[], params: FilterOptionsState<ProductOptionType>) => {
     const filtered = filter(options, params)
 
     const { inputValue } = params
@@ -37,6 +37,7 @@ export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
     const isExisting = options.some((option) => inputValue === option.title)
     if (inputValue !== '' && !isExisting) {
       filtered.push({
+        id: productOptions.length.toString(),
         inputValue,
         title: `Add "${inputValue}"`,
         createdAt: new Date().toISOString(),
@@ -47,7 +48,7 @@ export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
     return filtered
   }
 
-  const getOptionLabel = (option: FoodOptionType | string) => {
+  const getOptionLabel = (option: ProductOptionType | string) => {
     if (typeof option === 'string') {
       return option
     }
@@ -61,14 +62,14 @@ export const FoodSelect = ({ onFoodSelect, food }: FoodSelectProps) => {
 
   return (
     <Autocomplete
-      value={food}
+      value={product}
       onChange={(event, newValue) => onSearchChange(newValue)}
       filterOptions={filterOptions}
       selectOnFocus
       clearOnBlur
       handleHomeEndKeys
       id='free-solo-with-text-demo'
-      options={foodOptions}
+      options={productOptions}
       getOptionLabel={getOptionLabel}
       renderOption={(props, option) => <li {...props}>{option.title}</li>}
       sx={{ width: { xs: '100%', md: '60%' } }}

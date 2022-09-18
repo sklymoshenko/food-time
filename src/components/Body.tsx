@@ -1,11 +1,13 @@
-import { Box, Container, useTheme } from '@mui/material'
+import { Box, Container, useTheme, Button } from '@mui/material'
 import { useState } from 'react'
-import { selectedFoodOption } from '../mockData'
+import { generateProductOptions, selectedProductOption } from '../mockData'
 import { ExpireDateSelect } from './ExpireDateSelect'
-import { FoodList } from './FoodList'
-import { FoodSelect } from './FoodSelect'
+import { ProductList } from './ProductList'
+import { ProductSelect } from './ProductSelect'
+const productOptions = generateProductOptions()
 
-export type FoodOptionType = {
+export type ProductOptionType = {
+  id: string
   inputValue?: string
   title: string
   date: string
@@ -15,14 +17,31 @@ export type FoodOptionType = {
 const Body = () => {
   const theme = useTheme()
   const [expireDate, setExpireDate] = useState(new Date().toISOString())
-  const [food, setFood] = useState<FoodOptionType | null>(null)
+  const [product, setProduct] = useState<ProductOptionType | null>(null)
+  const [productList, setProductList] = useState(selectedProductOption)
+
   const handleExpireDateSelect = (date: string | null) => {
     setExpireDate(date || new Date().toISOString())
   }
-  const handleFoodSelect = (newFood: FoodOptionType | null) => {
-    setFood(newFood)
 
-    if (newFood?.date) setExpireDate(newFood.date)
+  const handleProductSelect = (newProduct: ProductOptionType | null) => {
+    setProduct(newProduct)
+
+    if (newProduct?.date) setExpireDate(newProduct.date)
+  }
+
+  const handleProductRemove = (item: ProductOptionType) => {
+    setProductList((prevValue) => prevValue.filter((product) => item.id !== product.id))
+  }
+
+  const handleProductAdd = () => {
+    if (!product) return
+    const newProduct: ProductOptionType = {
+      ...product,
+      id: productList.length.toString(),
+    }
+
+    setProductList(() => [newProduct, ...productList])
   }
 
   return (
@@ -35,10 +54,22 @@ const Body = () => {
           justifyContent: 'space-between',
         }}
       >
-        <FoodSelect food={food} onFoodSelect={handleFoodSelect} />
+        <ProductSelect product={product} onProductSelect={handleProductSelect} productOptions={productOptions} />
         <ExpireDateSelect date={expireDate} onDateSelect={handleExpireDateSelect} />
       </Box>
-      <FoodList foodItems={selectedFoodOption} />
+      <Box sx={{ width: { xs: '100%', md: '5%' }, marginTop: theme.spacing(2) }}>
+        <Button
+          variant='contained'
+          fullWidth
+          color='success'
+          sx={{ color: theme.palette.text.primary }}
+          disabled={!product}
+          onClick={handleProductAdd}
+        >
+          Add
+        </Button>
+      </Box>
+      <ProductList productItems={productList} onItemRemove={handleProductRemove} />
     </Container>
   )
 }

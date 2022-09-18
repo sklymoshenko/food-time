@@ -1,4 +1,4 @@
-import { FoodOptionType } from './components/Body'
+import { ProductOptionType } from './components/Body'
 import Chance from 'chance'
 import { DateTime } from 'luxon'
 
@@ -19,8 +19,8 @@ const titles = [
   'Star Wars: Episode V - The Empire Strikes Back',
 ]
 
-export const generateFoodOptions = (): FoodOptionType[] => {
-  return titles.map((title) => {
+export const generateProductOptions = (): ProductOptionType[] => {
+  return titles.map((title, i) => {
     const todayDay = DateTime.now().day > 2 ? DateTime.now().day : 2
     const date = new Date(
       chance.date({
@@ -42,6 +42,7 @@ export const generateFoodOptions = (): FoodOptionType[] => {
     ).toISOString()
 
     return {
+      id: i.toString(),
       title,
       date,
       createdAt,
@@ -49,4 +50,4 @@ export const generateFoodOptions = (): FoodOptionType[] => {
   })
 }
 
-export const selectedFoodOption: FoodOptionType[] = generateFoodOptions()
+export const selectedProductOption: ProductOptionType[] = generateProductOptions()

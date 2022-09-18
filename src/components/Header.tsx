@@ -30,7 +30,7 @@ const Header = () => {
               textDecoration: 'none',
             }}
           >
-            FOOD TIME
+            Product TIME
           </Typography>
 
           <Box sx={{ flexGrow: 0 }}>
