@@ -1,17 +1,19 @@
-import { Container, ThemeProvider } from '@mui/material'
-import { Header } from './components/Header'
+import { ThemeProvider } from '@mui/material'
+import Header from './components/Header'
+import Body from './components/Body'
 import { GlobalStyles } from './styled/GlobalStyles'
 import { darkTheme } from './theme'
+import CssBaseline from '@mui/material/CssBaseline'
 
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />
-      <Container>
-        <div className='App'>
-          <Header />
-        </div>
-      </Container>
+      <CssBaseline />
+      <div className='App'>
+        <Header />
+        <Body />
+      </div>
     </ThemeProvider>
   )
 }
