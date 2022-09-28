@@ -4,6 +4,7 @@ import { generateProductOptions, selectedProductOption } from '../mockData'
 import { ExpireDateSelect } from './ExpireDateSelect'
 import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
+import SwPropmpt from './SWPrompt'
 const productOptions = generateProductOptions()
 
 export type ProductOptionType = {
@@ -61,6 +62,7 @@ const Body = () => {
 
   return (
     <Container maxWidth='xl'>
+      <SwPropmpt />
       <Box
         mt={theme.spacing(2)}
         sx={{
