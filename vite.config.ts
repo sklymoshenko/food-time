@@ -13,6 +13,7 @@ export default defineConfig({
       registerType: 'prompt',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js'],
       },
       includeAssets: ['android-chrome-192x192.png', 'android-chrome-512x512.png'],
       manifest: {
