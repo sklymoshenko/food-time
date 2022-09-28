@@ -1,5 +1,4 @@
-// import './ReloadPrompt.css'
-
+import { Alert, AlertTitle, Box, Button, Snackbar } from '@mui/material'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 const SwPropmpt = () => {
@@ -24,25 +23,24 @@ const SwPropmpt = () => {
 
   return (
     <div className='ReloadPrompt-container'>
-      {(offlineReady || needRefresh) && (
-        <div className='ReloadPrompt-toast'>
+      <Snackbar open={offlineReady || needRefresh} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert className='ReloadPrompt-toast' onClose={() => close()}>
           <div className='ReloadPrompt-message'>
             {offlineReady ? (
-              <span>App ready to work offline</span>
+              <AlertTitle>App ready to work offline</AlertTitle>
             ) : (
-              <span>New content available, click on reload button to update.</span>
+              <AlertTitle>New content available, click on reload button to update.</AlertTitle>
             )}
           </div>
-          {needRefresh && (
-            <button className='ReloadPrompt-toast-button' onClick={() => updateServiceWorker(true)}>
-              Reload
-            </button>
-          )}
-          <button className='ReloadPrompt-toast-button' onClick={() => close()}>
-            Close
-          </button>
-        </div>
-      )}
+          <Box alignItems='center' justifyContent='flex-end' display='flex'>
+            {needRefresh && (
+              <Button onClick={() => updateServiceWorker(true)} variant='outlined' color='success'>
+                Reload
+              </Button>
+            )}
+          </Box>
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

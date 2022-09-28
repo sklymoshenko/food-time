@@ -4,7 +4,7 @@ import { generateProductOptions, selectedProductOption } from '../mockData'
 import { ExpireDateSelect } from './ExpireDateSelect'
 import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
-import SwPropmpt from './SWPrompt'
+import SwPropmpt from './SwPrompt'
 const productOptions = generateProductOptions()
 
 export type ProductOptionType = {

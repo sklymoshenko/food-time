@@ -6,13 +6,11 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      injectRegister: 'auto',
       srcDir: 'src',
       devOptions: {
         enabled: true,
       },
-      filename: 'sw.ts',
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
