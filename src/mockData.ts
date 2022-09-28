@@ -50,4 +50,6 @@ export const generateProductOptions = (): ProductOptionType[] => {
   })
 }
 
-export const selectedProductOption: ProductOptionType[] = generateProductOptions()
+export const selectedProductOption: ProductOptionType[] = generateProductOptions().sort(
+  (a, b) => DateTime.fromISO(b.date).toMillis() - DateTime.fromISO(a.date).toMillis(),
+)
