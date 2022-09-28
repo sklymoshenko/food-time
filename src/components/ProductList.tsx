@@ -1,13 +1,17 @@
-import { Box, Card, CardContent, Typography, useTheme } from '@mui/material'
+import { ChangeEvent } from 'react'
+import { Box, Card, CardContent, Checkbox, Typography, useTheme } from '@mui/material'
 import { mainTimeFormat } from '../services/timeFormat'
 import { ProductOptionType } from './Body'
 import { DateTime } from 'luxon'
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
+import HourglassTopIcon from '@mui/icons-material/HourglassTop'
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom'
 
 type ProductListProps = {
   productItems: ProductOptionType[]
   onItemRemove: (product: ProductOptionType) => void
   onProductClick: (product: ProductOptionType) => void
+  onProductSort: (isSort: boolean) => void
 }
 
 const dayDiff = (firstDate: string, secondDate: string): number => {
@@ -18,7 +22,7 @@ const dayDiff = (firstDate: string, secondDate: string): number => {
   return Math.round(diff)
 }
 
-export const ProductList = ({ productItems, onItemRemove, onProductClick }: ProductListProps) => {
+export const ProductList = ({ productItems, onItemRemove, onProductClick, onProductSort }: ProductListProps) => {
   const theme = useTheme()
   const dataColor = (expDate: string): string => {
     const diffToday = dayDiff(expDate, new Date().toISOString())
@@ -43,11 +47,16 @@ export const ProductList = ({ productItems, onItemRemove, onProductClick }: Prod
     return `${100 - percentage}%`
   }
 
+  const handleSort = (event: ChangeEvent<HTMLInputElement>) => {
+    onProductSort(event.target.checked)
+  }
+
   return (
     <Box
       mt={theme.spacing(2)}
       sx={{ display: 'flex', flexDirection: 'column', marginTop: { xs: theme.spacing(2), md: '0' } }}
     >
+      <Checkbox size='small' icon={<HourglassTopIcon />} checkedIcon={<HourglassBottomIcon />} onChange={handleSort} />
       {productItems.map((product, i) => (
         <Card
           key={i.toString()}

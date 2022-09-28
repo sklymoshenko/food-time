@@ -1,4 +1,5 @@
 import { Box, Container, useTheme, Button } from '@mui/material'
+import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { generateProductOptions, selectedProductOption } from '../mockData'
 import { ExpireDateSelect } from './ExpireDateSelect'
@@ -60,6 +61,16 @@ const Body = () => {
     setExpireDate(product.date)
   }
 
+  const handleProductSort = (expireTop: boolean) => {
+    const sortedProducts = productList.sort((a, b) => {
+      const aDate = DateTime.fromISO(a.date).toMillis()
+      const bDate = DateTime.fromISO(b.date).toMillis()
+      return expireTop ? bDate - aDate : aDate - bDate
+    })
+
+    setProductList(() => [...sortedProducts])
+  }
+
   return (
     <Container maxWidth='xl'>
       <SwPropmpt />
@@ -86,7 +97,12 @@ const Body = () => {
           Add
         </Button>
       </Box>
-      <ProductList productItems={productList} onItemRemove={handleProductRemove} onProductClick={handleProductClick} />
+      <ProductList
+        productItems={productList}
+        onItemRemove={handleProductRemove}
+        onProductClick={handleProductClick}
+        onProductSort={handleProductSort}
+      />
     </Container>
   )
 }
