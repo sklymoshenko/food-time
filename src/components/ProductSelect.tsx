@@ -1,17 +1,17 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import { ProductOptionType } from './Body'
+import { Product } from './Body'
 
-const filter = createFilterOptions<ProductOptionType>()
+const filter = createFilterOptions<Product>()
 
 type ProductSelectProps = {
-  onProductSelect: (product: ProductOptionType | null) => void
-  product: ProductOptionType | null
-  productOptions: ProductOptionType[]
+  onProductSelect: (product: Product | null) => void
+  product: Product | null
+  productOptions: Product[]
 }
 
 export const ProductSelect = ({ onProductSelect, product, productOptions }: ProductSelectProps) => {
-  const onSearchChange = (newValue: ProductOptionType | string | null) => {
+  const onSearchChange = (newValue: Product | string | null) => {
     if (typeof newValue === 'string') {
       onProductSelect({
         id: productOptions.length.toString(),
@@ -29,7 +29,7 @@ export const ProductSelect = ({ onProductSelect, product, productOptions }: Prod
     }
   }
 
-  const filterOptions = (options: ProductOptionType[], params: FilterOptionsState<ProductOptionType>) => {
+  const filterOptions = (options: Product[], params: FilterOptionsState<Product>) => {
     const filtered = filter(options, params)
 
     const { inputValue } = params
@@ -48,7 +48,7 @@ export const ProductSelect = ({ onProductSelect, product, productOptions }: Prod
     return filtered
   }
 
-  const getOptionLabel = (option: ProductOptionType | string) => {
+  const getOptionLabel = (option: Product | string) => {
     if (typeof option === 'string') {
       return option
     }

@@ -1,16 +1,16 @@
 import { ChangeEvent } from 'react'
 import { Box, Card, CardContent, Checkbox, Typography, useTheme } from '@mui/material'
 import { mainTimeFormat } from '../services/timeFormat'
-import { ProductOptionType } from './Body'
+import { Product } from './Body'
 import { DateTime } from 'luxon'
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom'
 
 type ProductListProps = {
-  productItems: ProductOptionType[]
-  onItemRemove: (product: ProductOptionType) => void
-  onProductClick: (product: ProductOptionType) => void
+  productItems: Product[]
+  onItemRemove: (product: Product) => void
+  onProductClick: (product: Product) => void
   onProductSort: (isSort: boolean) => void
 }
 

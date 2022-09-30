@@ -5,7 +5,9 @@ import { GlobalStyles } from './styled/GlobalStyles'
 import { darkTheme } from './theme'
 import CssBaseline from '@mui/material/CssBaseline'
 
-function App() {
+const App = () => {
+  Notification.requestPermission()
+
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />

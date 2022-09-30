@@ -1,26 +1,24 @@
 import { Box, Container, useTheme, Button } from '@mui/material'
 import { DateTime } from 'luxon'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { generateProductOptions, selectedProductOption } from '../mockData'
+import { dbDelete, dbGet, dbPut, indexDbInit, Product } from '../services/indexDb'
 import { ExpireDateSelect } from './ExpireDateSelect'
 import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
 import SwPropmpt from './SwPrompt'
 const productOptions = generateProductOptions()
 
-export type ProductOptionType = {
-  id: string
-  inputValue?: string
-  title: string
-  date: string
-  createdAt: string
-}
-
 const Body = () => {
   const theme = useTheme()
   const [expireDate, setExpireDate] = useState(new Date().toISOString())
-  const [product, setProduct] = useState<ProductOptionType | null>(null)
-  const [productList, setProductList] = useState(selectedProductOption)
+  const [product, setProduct] = useState<Product | null>(null)
+  const [productList, setProductList] = useState<Product[]>([])
+
+  useEffect(() => {
+    indexDbInit()
+    dbGet(setProductList)
+  }, [])
 
   const handleExpireDateSelect = (date: { toJSDate: () => Date } | null) => {
     // Well idk why but type for date is DateTime luxon object
@@ -32,31 +30,30 @@ const Body = () => {
     setExpireDate(new Date().toISOString())
   }
 
-  const handleProductSelect = (newProduct: ProductOptionType | null) => {
+  const handleProductSelect = (newProduct: Product | null) => {
     setProduct(newProduct)
 
     if (newProduct?.date) setExpireDate(newProduct.date)
   }
 
-  const handleProductRemove = (item: ProductOptionType) => {
-    setProductList((prevValue) => prevValue.filter((product) => item.id !== product.id))
+  const handleProductRemove = (item: Product) => {
+    dbDelete(item.id, setProductList)
   }
 
   const handleProductAdd = () => {
     if (!product) return
-    const newProduct: ProductOptionType = {
+    const newProduct: Product = {
       ...product,
       id: productList.length.toString(),
       date: expireDate,
     }
 
-    setProductList(() => [newProduct, ...productList])
-
     setProduct(null)
     setExpireDate(new Date().toISOString())
+    dbPut(newProduct, setProductList)
   }
 
-  const handleProductClick = (product: ProductOptionType) => {
+  const handleProductClick = (product: Product) => {
     setProduct(product)
     setExpireDate(product.date)
   }

@@ -1,4 +1,4 @@
-import { ProductOptionType } from './components/Body'
+import { Product } from './components/Body'
 import Chance from 'chance'
 import { DateTime } from 'luxon'
 
@@ -19,7 +19,7 @@ const titles = [
   'Star Wars: Episode V - The Empire Strikes Back',
 ]
 
-export const generateProductOptions = (): ProductOptionType[] => {
+export const generateProductOptions = (): Product[] => {
   return titles.map((title, i) => {
     const todayDay = DateTime.now().day > 2 ? DateTime.now().day : 2
     const dateDay =
@@ -57,6 +57,6 @@ export const generateProductOptions = (): ProductOptionType[] => {
   })
 }
 
-export const selectedProductOption: ProductOptionType[] = generateProductOptions().sort(
+export const selectedProductOption: Product[] = generateProductOptions().sort(
   (a, b) => DateTime.fromISO(b.date).toMillis() - DateTime.fromISO(a.date).toMillis(),
 )
