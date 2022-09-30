@@ -43,8 +43,8 @@ export const ProductList = ({ productItems, onItemRemove, onProductClick, onProd
     const diffToday = dayDiff(expDate, new Date().toISOString())
     const totalDiff = dayDiff(expDate, createdAt)
     const percentage = Math.round((diffToday / totalDiff) * 100)
-
-    return `${100 - percentage}%`
+    const loaded = percentage < 0 ? 0 : percentage
+    return `${100 - loaded}%`
   }
 
   const handleSort = (event: ChangeEvent<HTMLInputElement>) => {

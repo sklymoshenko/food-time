@@ -43,7 +43,7 @@ export const generateProductOptions = (): ProductOptionType[] => {
       chance.date({
         string: true,
         year: expDate.year,
-        month: expDate.month - 1,
+        month: todayDay >= 30 ? expDate.month - 2 : expDate.month - 1,
         day: todayDay - chance.integer({ min: 1, max: 5 }),
       }),
     ).toISOString()
