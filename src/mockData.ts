@@ -1,6 +1,6 @@
-import { Product } from './components/Body'
 import Chance from 'chance'
 import { DateTime } from 'luxon'
+import { Product } from './services/indexDb'
 
 const chance = new Chance()
 

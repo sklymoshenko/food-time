@@ -1,7 +1,7 @@
 import { Box, Container, useTheme, Button } from '@mui/material'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
-import { generateProductOptions, selectedProductOption } from '../mockData'
+import { generateProductOptions } from '../mockData'
 import { dbDelete, dbGet, dbPut, indexDbInit, Product } from '../services/indexDb'
 import { ExpireDateSelect } from './ExpireDateSelect'
 import { ProductList } from './ProductList'

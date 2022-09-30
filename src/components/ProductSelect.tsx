@@ -1,6 +1,6 @@
 import { Autocomplete, FilterOptionsState, TextField } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-import { Product } from './Body'
+import { Product } from '../services/indexDb'
 
 const filter = createFilterOptions<Product>()
 

@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react'
 import { Box, Card, CardContent, Checkbox, Typography, useTheme } from '@mui/material'
 import { mainTimeFormat } from '../services/timeFormat'
-import { Product } from './Body'
 import { DateTime } from 'luxon'
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom'
+import { Product } from '../services/indexDb'
 
 type ProductListProps = {
   productItems: Product[]
