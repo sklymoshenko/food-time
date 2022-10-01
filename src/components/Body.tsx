@@ -30,13 +30,11 @@ const Body = () => {
         const diffToday = dayDiff(product.date, new Date().toISOString())
         if (diffToday > 0 && diffToday < 3) {
           acc['expiring'].push(product)
-        }
-
-        if (diffToday < 0) {
+        } else if (diffToday < 0) {
           acc['expired'].push(product)
+        } else {
+          acc['inTime'].push(product)
         }
-
-        acc['inTime'].push(product)
 
         return acc
       },
