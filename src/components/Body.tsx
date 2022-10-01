@@ -48,19 +48,14 @@ const Body = () => {
 
   const handleProductAdd = () => {
     if (!product) return
-    const newProduct: Product = {
-      ...product,
-      id: uuidv4(),
-      date: expireDate,
-    }
 
     setProduct(null)
     setExpireDate(defaultDate)
 
-    dbPut(DbIdEnum.products, newProduct, setProductList)
+    dbPut(DbIdEnum.products, { ...product, id: uuidv4(), date: expireDate }, setProductList)
 
-    if (!productOptionsList.find(({ id }) => id === newProduct.id)) {
-      dbPut(DbIdEnum.productsOptions, newProduct, setProductOptionsList)
+    if (!productOptionsList.find(({ id }) => id === product.id)) {
+      dbPut(DbIdEnum.productsOptions, { ...product, date: expireDate }, setProductOptionsList)
     }
   }
 
