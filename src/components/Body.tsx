@@ -46,10 +46,8 @@ const Body = () => {
   }, [productList])
 
   useEffect(() => {
-    indexDbInit(DbIdEnum.products)
+    indexDbInit()
     dbGet(DbIdEnum.products, setProductList)
-
-    indexDbInit(DbIdEnum.productsOptions)
     dbGet(DbIdEnum.productsOptions, setProductOptionsList)
   }, [])
 

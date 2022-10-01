@@ -22,7 +22,7 @@ const indexDB = browserWindow.indexedDB || browserWindow.mozIndexDB || browserWi
 
 const openDb = (): IDBOpenDBRequest => indexDB.open('ProductsDataBase', 2)
 
-export const indexDbInit = (dbId: DbId) => {
+export const indexDbInit = () => {
   if (!indexDB) {
     throw new Error('Your browser doesnt support index db! Change it to more modern.')
   }
@@ -36,7 +36,10 @@ export const indexDbInit = (dbId: DbId) => {
 
   dbOpenRequest.onupgradeneeded = () => {
     const db = dbOpenRequest.result
-    db.createObjectStore(dbId, {
+    db.createObjectStore(DbIdEnum.products, {
+      keyPath: 'id',
+    })
+    db.createObjectStore(DbIdEnum.productsOptions, {
       keyPath: 'id',
     })
   }
