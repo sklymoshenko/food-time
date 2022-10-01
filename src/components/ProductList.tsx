@@ -10,17 +10,24 @@ type ProductListProps = {
   onProductClick: (product: Product) => void
 }
 
+export type InfoSection = 'expiring' | 'inTime' | 'expired'
+export const ExpirationDateRangeEnum: Record<InfoSection, number> = {
+  expired: 0,
+  expiring: 3,
+  inTime: 1000,
+}
+
 export const ProductList = ({ productItems, onItemRemove, onProductClick }: ProductListProps) => {
   const theme = useTheme()
   const dataColor = (expDate: string): string => {
     const diffToday = dayDiff(expDate, new Date().toISOString())
     let color = theme.palette.success.dark
 
-    if (diffToday > 0 && diffToday < 3) {
+    if (diffToday > ExpirationDateRangeEnum.expired && diffToday < ExpirationDateRangeEnum.expiring) {
       color = theme.palette.warning.dark
     }
 
-    if (diffToday < 0) {
+    if (diffToday < ExpirationDateRangeEnum.expired) {
       color = theme.palette.error.dark
     }
 
@@ -35,8 +42,11 @@ export const ProductList = ({ productItems, onItemRemove, onProductClick }: Prod
 
     // If we create option and add product today there will be no loaded bc percentage will be 0
     // So lets set it up like something is hapenning to a 5
-    if (loaded === 100) loaded = loaded - 5
-
+    if (loaded === 100 && totalDiff > ExpirationDateRangeEnum.expiring) {
+      loaded = loaded - 5
+    } else if (loaded === 100 && totalDiff < ExpirationDateRangeEnum.expiring) {
+      loaded = 15
+    }
     return `${100 - loaded}%`
   }
 

@@ -11,9 +11,9 @@ export type Product = {
 
 export type DbId = 'products' | 'productsOptions'
 
-export enum DbIdEnum {
-  products = 'products',
-  productsOptions = 'productsOptions',
+export const DbIdEnum: Record<DbId, DbId> = {
+  products: 'products',
+  productsOptions: 'productsOptions',
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
