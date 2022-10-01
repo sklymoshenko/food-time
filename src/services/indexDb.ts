@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction } from 'react'
 
 export type Product = {
@@ -8,99 +9,107 @@ export type Product = {
   createdAt: string
 }
 
+export type DbId = 'products' | 'productsOptions'
+
+export enum DbIdEnum {
+  products = 'products',
+  productsOptions = 'productsOptions',
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const browserWindow = window as any
 const indexDB = browserWindow.indexedDB || browserWindow.mozIndexDB || browserWindow.webkitIndexDB
 
-export const indexDbInit = () => {
+const openDb = (): IDBOpenDBRequest => indexDB.open('ProductsDataBase', 2)
+
+export const indexDbInit = (dbId: DbId) => {
   if (!indexDB) {
     throw new Error('Your browser doesnt support index db! Change it to more modern.')
   }
 
-  const dbOpenRequest: IDBOpenDBRequest = indexDB.open('ProductsDataBase', 1)
+  const dbOpenRequest = openDb()
 
   dbOpenRequest.onerror = (e: any) => {
     console.error('Error occured with a indexDB')
     throw new Error(e)
   }
 
-  dbOpenRequest.onupgradeneeded = (e: any) => {
+  dbOpenRequest.onupgradeneeded = () => {
     const db = dbOpenRequest.result
-    db.createObjectStore('products', {
+    db.createObjectStore(dbId, {
       keyPath: 'id',
     })
   }
 
-  dbOpenRequest.onsuccess = (e: any) => {
+  dbOpenRequest.onsuccess = () => {
     console.info('IndexDB successfully created!')
   }
 }
 
-export const dbPut = (product: Product, setState: Dispatch<SetStateAction<Product[]>>) => {
-  const dbOpenRequest: IDBOpenDBRequest = indexDB.open('ProductsDataBase', 1)
+export const dbPut = (dbId: DbId, product: Product, setState: Dispatch<SetStateAction<Product[]>>) => {
+  const dbOpenRequest = openDb()
 
   dbOpenRequest.onsuccess = () => {
     const db = dbOpenRequest.result
-    const tx = db.transaction('products', 'readwrite')
+    const tx = db.transaction(dbId, 'readwrite')
 
-    const productsStore = tx.objectStore('products')
+    const store = tx.objectStore(dbId)
 
-    const prodcutsAdd = productsStore.put(product)
-
-    prodcutsAdd.onsuccess = () => {
+    const itemsAdd = store.put(product)
+    itemsAdd.onsuccess = () => {
       tx.oncomplete = () => db.close()
     }
 
-    prodcutsAdd.onerror = (event: any) => {
-      throw new Error(event)
+    itemsAdd.onerror = (e: any) => {
+      throw new Error(e)
     }
 
-    dbGet(setState)
+    dbGet(dbId, setState)
   }
 }
 
-export const dbGet = (setState: Dispatch<SetStateAction<Product[]>>) => {
-  const dbOpenRequest: IDBOpenDBRequest = indexDB.open('ProductsDataBase', 1)
+export const dbGet = (dbId: DbId, setState: Dispatch<SetStateAction<Product[]>>) => {
+  const dbOpenRequest = openDb()
 
   dbOpenRequest.onsuccess = () => {
     const db = dbOpenRequest.result
-    const tx = db.transaction('products', 'readonly')
+    const tx = db.transaction(dbId, 'readonly')
 
-    const productsStore = tx.objectStore('products')
+    const store = tx.objectStore(dbId)
 
-    const products = productsStore.getAll()
+    const items = store.getAll()
 
-    products.onsuccess = () => {
+    items.onsuccess = () => {
       tx.oncomplete = () => {
-        setState(products.result)
+        setState(items.result)
         db.close()
       }
     }
 
-    products.onerror = (event: any) => {
+    items.onerror = (event: any) => {
       throw new Error(event)
     }
   }
 }
 
-export const dbDelete = (id: Product['id'], setState: Dispatch<SetStateAction<Product[]>>) => {
-  const dbOpenRequest: IDBOpenDBRequest = indexDB.open('ProductsDataBase', 1)
+export const dbDelete = (dbId: DbId, id: Product['id'], setState: Dispatch<SetStateAction<Product[]>>) => {
+  const dbOpenRequest = openDb()
 
   dbOpenRequest.onsuccess = () => {
     const db = dbOpenRequest.result
-    const tx = db.transaction('products', 'readwrite')
+    const tx = db.transaction(dbId, 'readwrite')
 
-    const productsStore = tx.objectStore('products')
-    const productDelete = productsStore.delete(id)
+    const store = tx.objectStore(dbId)
+    const itemDelete = store.delete(id)
 
-    productDelete.onsuccess = () => {
+    itemDelete.onsuccess = () => {
       tx.oncomplete = () => db.close()
     }
 
-    productDelete.onerror = (event: any) => {
+    itemDelete.onerror = (event: any) => {
       throw new Error(event)
     }
 
-    dbGet(setState)
+    dbGet(dbId, setState)
   }
 }

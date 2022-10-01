@@ -1,23 +1,30 @@
 import { Box, Container, useTheme, Button } from '@mui/material'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
-import { generateProductOptions } from '../mockData'
-import { dbDelete, dbGet, dbPut, indexDbInit, Product } from '../services/indexDb'
+import { dbDelete, dbGet, DbIdEnum, dbPut, indexDbInit, Product } from '../services/indexDb'
+import { ConfirmDialog } from './ConfirmDialog'
 import { ExpireDateSelect } from './ExpireDateSelect'
 import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
 import SwPropmpt from './SwPrompt'
-const productOptions = generateProductOptions()
+import { v4 as uuidv4 } from 'uuid'
+const defaultDate = DateTime.now().plus({ day: 1 }).toISODate()
 
 const Body = () => {
   const theme = useTheme()
-  const [expireDate, setExpireDate] = useState(new Date().toISOString())
+  const [expireDate, setExpireDate] = useState(defaultDate)
   const [product, setProduct] = useState<Product | null>(null)
   const [productList, setProductList] = useState<Product[]>([])
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [productOptionsList, setProductOptionsList] = useState<Product[]>([])
+  const [deletingProductOption, setDeletingProductOption] = useState<Product>()
 
   useEffect(() => {
-    indexDbInit()
-    dbGet(setProductList)
+    indexDbInit(DbIdEnum.products)
+    dbGet(DbIdEnum.products, setProductList)
+
+    indexDbInit(DbIdEnum.productsOptions)
+    dbGet(DbIdEnum.productsOptions, setProductOptionsList)
   }, [])
 
   const handleExpireDateSelect = (date: { toJSDate: () => Date } | null) => {
@@ -27,7 +34,7 @@ const Body = () => {
       return
     }
 
-    setExpireDate(new Date().toISOString())
+    setExpireDate(defaultDate)
   }
 
   const handleProductSelect = (newProduct: Product | null) => {
@@ -37,20 +44,25 @@ const Body = () => {
   }
 
   const handleProductRemove = (item: Product) => {
-    dbDelete(item.id, setProductList)
+    dbDelete(DbIdEnum.products, item.id, setProductList)
   }
 
   const handleProductAdd = () => {
     if (!product) return
     const newProduct: Product = {
       ...product,
-      id: productList.length.toString(),
+      id: uuidv4(),
       date: expireDate,
     }
 
     setProduct(null)
-    setExpireDate(new Date().toISOString())
-    dbPut(newProduct, setProductList)
+    setExpireDate(defaultDate)
+
+    dbPut(DbIdEnum.products, newProduct, setProductList)
+
+    if (!productOptionsList.find(({ id }) => id === newProduct.id)) {
+      dbPut(DbIdEnum.productsOptions, newProduct, setProductOptionsList)
+    }
   }
 
   const handleProductClick = (product: Product) => {
@@ -68,6 +80,20 @@ const Body = () => {
     setProductList(() => [...sortedProducts])
   }
 
+  const handleProductOptionRemove = (option: Product) => {
+    setIsConfirmOpen(true)
+    setDeletingProductOption(option)
+  }
+
+  const handleProductOptionDeleteCopnfirm = () => {
+    if (deletingProductOption) {
+      dbDelete(DbIdEnum.productsOptions, deletingProductOption.id, setProductOptionsList)
+    }
+
+    setProduct(null)
+    setIsConfirmOpen(false)
+  }
+
   return (
     <Container maxWidth='xl'>
       <SwPropmpt />
@@ -79,7 +105,13 @@ const Body = () => {
           justifyContent: 'space-between',
         }}
       >
-        <ProductSelect product={product} onProductSelect={handleProductSelect} productOptions={productOptions} />
+        <ProductSelect
+          product={product}
+          selectedDate={expireDate}
+          onProductSelect={handleProductSelect}
+          productOptions={productOptionsList}
+          onProductOptionRemove={handleProductOptionRemove}
+        />
         <ExpireDateSelect date={expireDate} onDateSelect={handleExpireDateSelect} />
       </Box>
       <Box sx={{ width: { xs: '100%', md: '5%' }, marginTop: theme.spacing(2) }}>
@@ -99,6 +131,15 @@ const Body = () => {
         onItemRemove={handleProductRemove}
         onProductClick={handleProductClick}
         onProductSort={handleProductSort}
+      />
+      <ConfirmDialog
+        open={isConfirmOpen}
+        title={'Delete grocery option'}
+        contentText={
+          'Are you sure you want to delete it from list? It will be deleted from your database and you wont see this option in your groceries list.'
+        }
+        handleClose={() => setIsConfirmOpen(false)}
+        handleConfirm={handleProductOptionDeleteCopnfirm}
       />
     </Container>
   )

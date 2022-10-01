@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react'
 import { Box, Card, CardContent, Checkbox, Typography, useTheme } from '@mui/material'
-import { mainTimeFormat } from '../services/timeFormat'
-import { DateTime } from 'luxon'
+import { dayDiff, mainTimeFormat } from '../services/time'
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom'
@@ -12,14 +11,6 @@ type ProductListProps = {
   onItemRemove: (product: Product) => void
   onProductClick: (product: Product) => void
   onProductSort: (isSort: boolean) => void
-}
-
-const dayDiff = (firstDate: string, secondDate: string): number => {
-  const expirationDay = DateTime.fromISO(firstDate).set({ second: 0, minute: 0, hour: 0 })
-  const currentDay = DateTime.fromISO(secondDate).set({ second: 0, minute: 0, hour: 0 })
-  const diff = expirationDay.diff(currentDay, 'days').toObject().days || 0
-
-  return Math.round(diff)
 }
 
 export const ProductList = ({ productItems, onItemRemove, onProductClick, onProductSort }: ProductListProps) => {

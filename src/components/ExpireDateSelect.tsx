@@ -1,6 +1,7 @@
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers'
 import { TextField, useTheme } from '@mui/material'
+import { dayDiff } from '../services/time'
 
 type ExpireDateSelectProps = {
   // Date here is a luxon DateTime object
@@ -16,6 +17,8 @@ export const ExpireDateSelect = ({ onDateSelect, date }: ExpireDateSelectProps) 
         label='Expiration Date'
         value={date}
         inputFormat='d/M/y'
+        disablePast
+        shouldDisableDate={(day) => !dayDiff(day.toJSDate().toISOString(), new Date().toISOString())}
         onChange={onDateSelect}
         renderInput={(params) => (
           <TextField
