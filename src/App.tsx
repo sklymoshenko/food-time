@@ -4,9 +4,10 @@ import Body from './components/Body'
 import { GlobalStyles } from './styled/GlobalStyles'
 import { darkTheme } from './theme'
 import CssBaseline from '@mui/material/CssBaseline'
+import { permissions } from './services/notifications'
 
 const App = () => {
-  Notification.requestPermission()
+  permissions()
 
   return (
     <ThemeProvider theme={darkTheme}>
