@@ -8,7 +8,7 @@ import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
 import SwPropmpt from './SwPrompt'
 import { v4 as uuidv4 } from 'uuid'
-const defaultDate = DateTime.now().plus({ day: 1 }).toISODate()
+const defaultDate = DateTime.now().plus({ day: 1 }).toISO()
 
 const Body = () => {
   const theme = useTheme()
@@ -28,7 +28,6 @@ const Body = () => {
   }, [])
 
   const handleExpireDateSelect = (date: { toJSDate: () => Date } | null) => {
-    // Well idk why but type for date is DateTime luxon object
     if (date !== null && typeof date === 'object') {
       setExpireDate(date.toJSDate().toISOString())
       return
@@ -103,6 +102,7 @@ const Body = () => {
           display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
           justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <ProductSelect
@@ -113,18 +113,19 @@ const Body = () => {
           onProductOptionRemove={handleProductOptionRemove}
         />
         <ExpireDateSelect date={expireDate} onDateSelect={handleExpireDateSelect} />
-      </Box>
-      <Box sx={{ width: { xs: '100%', md: '5%' }, marginTop: theme.spacing(2) }}>
-        <Button
-          variant='contained'
-          fullWidth
-          color='success'
-          sx={{ color: theme.palette.text.primary }}
-          disabled={!product}
-          onClick={handleProductAdd}
-        >
-          Add
-        </Button>
+        <Box sx={{ width: { xs: '100%', md: '10%' }, marginTop: { xs: theme.spacing(2), md: 0 } }}>
+          <Button
+            variant='contained'
+            fullWidth
+            color='success'
+            size='large'
+            sx={{ color: theme.palette.text.primary }}
+            disabled={!product}
+            onClick={handleProductAdd}
+          >
+            Add
+          </Button>
+        </Box>
       </Box>
       <ProductList
         productItems={productList}

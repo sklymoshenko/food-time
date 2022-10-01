@@ -23,7 +23,7 @@ export const ExpireDateSelect = ({ onDateSelect, date }: ExpireDateSelectProps) 
         renderInput={(params) => (
           <TextField
             {...params}
-            sx={{ width: { xs: '100%', md: '30%' }, marginTop: { xs: theme.spacing(2), md: '0' } }}
+            sx={{ width: { xs: '100%', md: '15%' }, marginTop: { xs: theme.spacing(2), md: '0' } }}
           />
         )}
       />
