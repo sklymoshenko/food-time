@@ -12,7 +12,8 @@
     "coverage": "vitest run --coverage",
     "lint": "tsc",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,json}'",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -22,6 +23,7 @@
     "@mui/x-date-pickers": "^5.0.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/uuid": "^8.3.4",
+    "husky": "^8.0.1",
     "luxon": "^2.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
