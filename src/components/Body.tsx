@@ -69,15 +69,15 @@ const Body = () => {
 
   const handleProductAdd = () => {
     if (!product) return
-
-    setProduct(null)
-    setExpireDate(defaultDate)
-
-    dbPut(DbIdEnum.products, { ...product, id: uuidv4(), date: expireDate }, setProductList)
+    const newProduct = product.id ? { ...product, date: expireDate } : { ...product, id: uuidv4(), date: expireDate }
+    dbPut(DbIdEnum.products, newProduct, setProductList)
 
     if (!productOptionsList.find(({ id }) => id === product.id)) {
       dbPut(DbIdEnum.productsOptions, { ...product, date: expireDate }, setProductOptionsList)
     }
+
+    setProduct(null)
+    setExpireDate(defaultDate)
   }
 
   const handleProductClick = (product: Product) => {
