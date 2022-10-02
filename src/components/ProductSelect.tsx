@@ -40,9 +40,10 @@ export const onSearchChange = (
     onProductSelect({
       ...newValue,
       title: newValue.inputValue,
+      id: '',
     })
   } else if (typeof newValue === 'object') {
-    onProductSelect(newValue)
+    onProductSelect({ ...newValue, id: '' })
   }
 }
 

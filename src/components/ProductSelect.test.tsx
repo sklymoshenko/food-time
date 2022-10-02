@@ -135,7 +135,7 @@ describe('ProductSelect', () => {
       expect(onProductSelect).toHaveBeenCalledWith({ id, title, date, createdAt: DateTime.now().toISODate() })
     })
 
-    it('Rewrite title when there is some input value but select "Add" option from string', () => {
+    it('Rewrite title and id when there is some input value but select "Add" option from string', () => {
       const onProductSelect = vi.fn()
       const inputValue = 'food'
 
@@ -143,7 +143,7 @@ describe('ProductSelect', () => {
         title: "Add 'food'",
         inputValue,
         date: DateTime.now().plus({ day: 10 }).toISODate(),
-        id: uuidv4(),
+        id: '',
         createdAt: DateTime.now().toISODate(),
       }
 
@@ -153,13 +153,13 @@ describe('ProductSelect', () => {
       expect(onProductSelect).toHaveBeenCalledWith({ ...newProduct, title: inputValue })
     })
 
-    it('Takes selected saved product option as it is when no input value', () => {
+    it('Takes selected saved product option as it is when no input value without id', () => {
       const onProductSelect = vi.fn()
 
       const newProduct: Product = {
         title: "Add 'food'",
         date: DateTime.now().plus({ day: 10 }).toISODate(),
-        id: uuidv4(),
+        id: '',
         createdAt: DateTime.now().toISODate(),
       }
 
