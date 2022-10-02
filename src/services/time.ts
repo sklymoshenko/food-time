@@ -14,7 +14,7 @@ export const mainTimeFormat = (date: Date | string): string => {
 export const dayDiff = (firstDate: string, secondDate: string): number => {
   const expirationDay = DateTime.fromISO(firstDate).set({ second: 0, minute: 0, hour: 0 })
   const currentDay = DateTime.fromISO(secondDate).set({ second: 0, minute: 0, hour: 0 })
-  const diff = expirationDay.diff(currentDay, 'days').toObject().days || 0
+  const diff = expirationDay.diff(currentDay, 'days').toObject().days!
 
   return Math.round(diff)
 }

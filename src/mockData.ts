@@ -1,4 +1,3 @@
-import { Palette } from '@mui/material'
 import Chance from 'chance'
 import { DateTime } from 'luxon'
 import { PaletteColors, Product } from './types'
@@ -64,7 +63,7 @@ export const selectedProductOption: Product[] = generateProductOptions().sort(
 
 export const palette: PaletteColors = {
   success: {
-    dark: 'dark',
+    dark: 'success',
     light: '',
   },
   warning: {

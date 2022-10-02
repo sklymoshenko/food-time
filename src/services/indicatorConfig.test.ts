@@ -25,6 +25,19 @@ describe('Data color configs', () => {
       expect(dataColor(expDate2, palette)).not.toEqual(palette.success?.dark)
       expect(dataColor(expDate2, palette)).not.toEqual(palette.error?.dark)
     })
+
+    it('Should return error when day diff is less than 0', () => {
+      const expDate = DateTime.now().minus({ day: 3 }).toISO()
+      const expDate2 = DateTime.now().minus({ day: 100 }).toISO()
+
+      expect(dataColor(expDate, palette)).toEqual(palette.error?.dark)
+      expect(dataColor(expDate, palette)).not.toEqual(palette.success?.dark)
+      expect(dataColor(expDate, palette)).not.toEqual(palette.warning?.dark)
+
+      expect(dataColor(expDate2, palette)).toEqual(palette.error?.dark)
+      expect(dataColor(expDate2, palette)).not.toEqual(palette.success?.dark)
+      expect(dataColor(expDate2, palette)).not.toEqual(palette.warning?.dark)
+    })
   })
 
   describe('Indicator Width', () => {
