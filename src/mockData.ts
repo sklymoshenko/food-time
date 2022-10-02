@@ -1,6 +1,6 @@
 import Chance from 'chance'
 import { DateTime } from 'luxon'
-import { Product } from './services/indexDb'
+import { Product } from './types'
 
 const chance = new Chance()
 

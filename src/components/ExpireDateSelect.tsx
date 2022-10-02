@@ -16,7 +16,7 @@ export const ExpireDateSelect = ({ onDateSelect, date }: ExpireDateSelectProps) 
       <DatePicker
         label='Expiration Date'
         value={date}
-        inputFormat='d/M/y'
+        inputFormat='dd/MM/y'
         disablePast
         shouldDisableDate={(day) => !dayDiff(day.toJSDate().toISOString(), new Date().toISOString())}
         onChange={onDateSelect}

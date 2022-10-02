@@ -1,20 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction } from 'react'
-
-export type Product = {
-  id: string
-  inputValue?: string
-  title: string
-  date: string
-  createdAt: string
-}
-
-export type DbId = 'products' | 'productsOptions'
-
-export const DbIdEnum: Record<DbId, DbId> = {
-  products: 'products',
-  productsOptions: 'productsOptions',
-}
+import { Product, DbIdEnum, DbId } from '../types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const browserWindow = window as any

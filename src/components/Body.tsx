@@ -1,19 +1,18 @@
 import { Box, Container, useTheme, Button, Checkbox, Typography } from '@mui/material'
 import { DateTime } from 'luxon'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import { dbDelete, dbGet, DbIdEnum, dbPut, indexDbInit, Product } from '../services/indexDb'
+import { dbDelete, dbGet, dbPut, indexDbInit } from '../services/indexDb'
 import { ConfirmDialog } from './ConfirmDialog'
 import { ExpireDateSelect } from './ExpireDateSelect'
-import { InfoSection, ProductList } from './ProductList'
+import { ProductList } from './ProductList'
 import { ProductSelect } from './ProductSelect'
 import HourglassTopIcon from '@mui/icons-material/HourglassTop'
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom'
 import SwPropmpt from './SwPrompt'
 import { v4 as uuidv4 } from 'uuid'
 import { dayDiff } from '../services/time'
+import { DbIdEnum, ListInfo, Product } from '../types'
 const defaultDate = DateTime.now().plus({ day: 1 }).toISO()
-
-type ListInfo = Record<InfoSection, Product[]>
 
 const Body = () => {
   const theme = useTheme()
@@ -50,7 +49,7 @@ const Body = () => {
 
   const handleExpireDateSelect = (date: { toJSDate: () => Date } | null) => {
     if (date !== null && typeof date === 'object') {
-      setExpireDate(date.toJSDate().toISOString())
+      setExpireDate(DateTime.fromJSDate(date.toJSDate()).toISODate())
       return
     }
 
