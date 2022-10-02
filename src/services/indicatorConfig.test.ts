@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 import { describe, it, expect } from 'vitest'
 import { palette } from '../mockData'
 import { dataColor, indicatorWidth } from './indicatorsConfig'
-import { dayDiff } from './time'
 
 describe('Data color configs', () => {
   describe('data color', () => {
