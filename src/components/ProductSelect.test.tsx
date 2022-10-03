@@ -183,6 +183,18 @@ describe('ProductSelect', () => {
       expect(hasAddOption).toBeTruthy()
     })
 
+    it('Doesnt suggest adding new option if no input value', () => {
+      const inputValue = ''
+      const newFilteredOptions = filterOptions(
+        productOptions,
+        { inputValue, getOptionLabel: (option) => option.title },
+        DateTime.now().toISODate(),
+      )
+
+      const hasAddOption = newFilteredOptions[newFilteredOptions.length - 1].title.startsWith('Add')
+      expect(hasAddOption).not.toBeTruthy()
+    })
+
     it('Doesnt suggest adding new option if product is found fully', () => {
       const inputValue = product.title // -> 'The Shawshank Redemption'
       const newFilteredOptions = filterOptions(
