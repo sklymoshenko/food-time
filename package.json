@@ -16,6 +16,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@capacitor/android": "^4.3.0",
+    "@capacitor/core": "^4.3.0",
+    "@capacitor/ios": "^4.3.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/material": "5.10.5",
@@ -31,6 +34,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^4.3.0",
     "@mui/icons-material": "^5.10.3",
     "@testing-library/react": "^13.4.0",
     "@types/chance": "^1.1.3",
