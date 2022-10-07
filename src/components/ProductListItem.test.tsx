@@ -5,6 +5,7 @@ import { generateProductOptions } from '../mockData'
 import { ProductListItem } from './ProductListItem'
 import { mainTimeFormat } from '../services/time'
 import { Product } from '../types'
+import { DateTime } from 'luxon'
 
 const productItems = generateProductOptions()
 
@@ -24,6 +25,27 @@ describe('ProductListItem', () => {
   it('Product should have expiration date', () => {
     render(<ProductListItem onItemRemove={() => undefined} onProductClick={() => undefined} product={product} />)
     const expirationDate = screen.getByTestId('productCardDate')
+    expect(expirationDate).toBeInTheDocument()
+  })
+
+  it('Product should have "Tomorrow" text for expiration date just when its 1 day after today', () => {
+    product.date = DateTime.now().plus({ day: 1 }).toISO()
+    render(<ProductListItem onItemRemove={() => undefined} onProductClick={() => undefined} product={product} />)
+    const expirationDate = screen.getByTestId('productCardDateTomorrow')
+    expect(expirationDate).toBeInTheDocument()
+  })
+
+  it('Product shouldnt have "Tomorrow" text for expiration date if its not tomorrow', () => {
+    product.date = DateTime.now().plus({ day: 2 }).toISO()
+    render(<ProductListItem onItemRemove={() => undefined} onProductClick={() => undefined} product={product} />)
+    const expirationDate = screen.queryByTestId('productCardDateTomorrow')
+    expect(expirationDate).not.toBeInTheDocument()
+  })
+
+  it('Product should have "Tomorrow" text for expiration date just when its 1 day after today', () => {
+    product.date = DateTime.now().plus({ day: 1 }).toISO()
+    render(<ProductListItem onItemRemove={() => undefined} onProductClick={() => undefined} product={product} />)
+    const expirationDate = screen.getByTestId('productCardDateTomorrow')
     expect(expirationDate).toBeInTheDocument()
   })
 

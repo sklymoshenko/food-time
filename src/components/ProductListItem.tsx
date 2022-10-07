@@ -1,8 +1,9 @@
 import { Box, Card, CardContent, Typography, useTheme } from '@mui/material'
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn'
-import { mainTimeFormat } from '../services/time'
+import { dayDiff, mainTimeFormat } from '../services/time'
 import { Product } from '../types'
 import { dataColor, indicatorWidth } from '../services/indicatorsConfig'
+import { DateTime } from 'luxon'
 
 type ProductListItemProps = {
   product: Product
@@ -12,6 +13,8 @@ type ProductListItemProps = {
 
 export const ProductListItem = ({ onProductClick, onItemRemove, product }: ProductListItemProps) => {
   const theme = useTheme()
+  const isTomorrow = dayDiff(product.date, DateTime.now().plus({ day: 1 }).toISO()) === 0
+
   return (
     <Card
       data-testid='productCard'
@@ -56,6 +59,11 @@ export const ProductListItem = ({ onProductClick, onItemRemove, product }: Produ
           <Typography color={dataColor(product.date, theme.palette)}>
             <span data-testid='productCardDate'>{mainTimeFormat(product.date)}</span>
           </Typography>
+          {isTomorrow && (
+            <Typography color={theme.palette.grey[600]} fontSize={theme.typography.fontSize - 2}>
+              <span data-testid='productCardDateTomorrow'>Tomorrow</span>
+            </Typography>
+          )}
         </CardContent>
       </Box>
       <Box
