@@ -18,6 +18,7 @@ export const ProductList = ({ productItems, onItemRemove, onProductClick }: Prod
         flexDirection: { xs: 'column', md: 'row' },
         marginTop: { xs: theme.spacing(2), md: '0' },
         flexWrap: 'wrap',
+        alignItems: 'start',
       }}
     >
       {productItems.map((product, i) => (

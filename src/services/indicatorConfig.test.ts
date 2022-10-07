@@ -13,9 +13,10 @@ describe('Data color configs', () => {
       expect(dataColor(expDate, palette)).not.toEqual(palette.error?.dark)
     })
 
-    it('Should return warning when day diff is between 1 and 3 days', () => {
+    it('Should return warning when day diff is between 0 and 3 days', () => {
       const expDate = DateTime.now().plus({ day: 2 }).toISO()
       const expDate2 = DateTime.now().plus({ day: 1 }).toISO()
+      const expDate3 = DateTime.now().toISO()
 
       expect(dataColor(expDate, palette)).toEqual(palette.warning?.dark)
       expect(dataColor(expDate, palette)).not.toEqual(palette.success?.dark)
@@ -24,6 +25,8 @@ describe('Data color configs', () => {
       expect(dataColor(expDate2, palette)).toEqual(palette.warning?.dark)
       expect(dataColor(expDate2, palette)).not.toEqual(palette.success?.dark)
       expect(dataColor(expDate2, palette)).not.toEqual(palette.error?.dark)
+
+      expect(dataColor(expDate3, palette)).toEqual(palette.warning?.dark)
     })
 
     it('Should return error when day diff is less than 0', () => {

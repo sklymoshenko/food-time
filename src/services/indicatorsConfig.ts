@@ -7,7 +7,7 @@ export const dataColor = (expDate: string, paletteColors: PaletteColors | Palett
   const diffToday = dayDiff(expDate, DateTime.now().toISO())
   let color = paletteColors.success.dark
 
-  if (diffToday > ExpirationDateRangeEnum.expired && diffToday < ExpirationDateRangeEnum.expiring) {
+  if (diffToday >= ExpirationDateRangeEnum.expired && diffToday <= ExpirationDateRangeEnum.expiring) {
     color = paletteColors.warning.dark
   }
 
