@@ -20,7 +20,7 @@ export const ProductListItem = ({ onProductClick, onItemRemove, product }: Produ
         marginRight: { xs: 0, md: theme.spacing(2) },
         position: 'relative',
         overflow: 'visible',
-        width: { xs: '100', md: '350px' },
+        width: { xs: '100%', md: '400px' },
       }}
       onClick={() => {
         onProductClick(product)
@@ -35,15 +35,21 @@ export const ProductListItem = ({ onProductClick, onItemRemove, product }: Produ
         }}
       />
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <CardContent sx={{ width: { xs: '170px', md: '300px' } }}>
+        <CardContent sx={{ width: { xs: '45%', sm: '70%', md: '60%' } }}>
           <Typography color={theme.palette.text.secondary} fontSize={theme.typography.fontSize - 2}>
             Name
           </Typography>
-          <Typography color={theme.palette.text.primary} sx={{ textTransform: 'capitalize' }}>
+          <Typography
+            color={theme.palette.text.primary}
+            sx={{
+              textTransform: 'capitalize',
+              wordBreak: 'break-word',
+            }}
+          >
             {product.title}
           </Typography>
         </CardContent>
-        <CardContent sx={{ width: { xs: '130px', md: '180px' } }}>
+        <CardContent sx={{ width: { xs: '55%', sm: '30%', md: '50%' }, textAlign: 'right' }}>
           <Typography color={theme.palette.text.secondary} fontSize={theme.typography.fontSize - 2}>
             Expiration Date
           </Typography>
