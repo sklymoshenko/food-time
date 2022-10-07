@@ -131,7 +131,10 @@ export const ProductSelect = ({
       )}
       sx={{ width: { xs: '100%', md: '60%' } }}
       freeSolo
-      renderInput={(params) => <TextField {...params} label='Grocery name' />}
+      renderInput={(params) => {
+        const inputParams = { ...params, inputProps: { ...params.inputProps, maxLength: 40 } }
+        return <TextField {...inputParams} label='Grocery name' />
+      }}
     />
   )
 }
