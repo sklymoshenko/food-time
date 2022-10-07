@@ -6,7 +6,7 @@ export const permissions = async (): Promise<NotificationPermission> => {
   return 'denied'
 }
 
-function isIOS() {
+export function isIOS() {
   const browserInfo = navigator.userAgent.toLowerCase()
 
   if (browserInfo.match('iphone') || browserInfo.match('ipad')) {

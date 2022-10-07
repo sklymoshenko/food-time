@@ -7,12 +7,16 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="mask-icon" href="/android-chrome-512x512.png" />
     <meta name="description" content="App to control your food expiration date" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <title>Food Time</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="text/javascript">
+      // Make indexDb work with capacitor
+      window.indexedDB
+    </script>
   </body>
 </html>
